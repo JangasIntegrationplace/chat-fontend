@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="13.426" height="13.423" viewBox="0 0 13.426 13.423">
-  <path id="close" d="M19.589,18l4.8-4.8A1.124,1.124,0,0,0,22.8,11.616l-4.8,4.8-4.8-4.8A1.124,1.124,0,1,0,11.616,13.2l4.8,4.8-4.8,4.8A1.124,1.124,0,0,0,13.2,24.384l4.8-4.8,4.8,4.8A1.124,1.124,0,1,0,24.384,22.8Z" transform="translate(-11.285 -11.289)" fill="#392538"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="14.84" height="14.84" viewBox="0 0 14.84 14.84">
+  <g id="close" transform="translate(-450.793 -171.793)">
+    <line id="Line_2" data-name="Line 2" x2="13.426" y2="13.426" transform="translate(451.5 172.5)" fill="none" stroke="#0a0908" stroke-linecap="round" stroke-width="1"/>
+    <line id="Line_3" data-name="Line 3" x1="13.426" y2="13.426" transform="translate(451.5 172.5)" fill="none" stroke="#0a0908" stroke-linecap="round" stroke-width="1"/>
+  </g>
 </svg>

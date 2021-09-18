@@ -3,15 +3,15 @@ const API = process.env.REACT_APP_URL;
 const USER_DATA = { name: "micheal" };
 export async function createThread(userData = USER_DATA) {
   try {
-    // const response = await axios({
-    //   method: "post",
-    //   url: API + "/chat/thread/",
-    //   headers: { "Content-Type": "application/json" },
-    //   data: {
-    //     user: userData,
-    //   },
-    // });
-    const response = { data: { id: "" } };
+    const response = await axios({
+      method: "post",
+      url: API + "/chat/thread/",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        user: userData,
+      },
+    });
+    // const response = { data: { id: "" } };
     return { success: true, data: response.data };
   } catch (e) {
     console.log(e);
@@ -24,7 +24,6 @@ export async function retrieveChatThread(threadId) {
       method: "get",
       url: API + "/chat/thread/" + threadId,
     });
-    console.log(response);
     return { success: true, data: response.data };
   } catch (e) {
     console.log(e);

@@ -5,7 +5,7 @@ import { Button } from "./styled";
 export default function index() {
   return (
     <Button>
-      <img src={Logo} alt="" width="30px" />
+      <img src={Logo} alt="" width="40px" />
     </Button>
   );
 }

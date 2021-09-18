@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 export const Message = styled.div`
   padding: 15px;
   min-height: max-content;
-  width: max-content;
+  /* width: max-content; */
   max-width: 250px;
   height: max-content;
   border-radius: 25px 25px 0px 25px;

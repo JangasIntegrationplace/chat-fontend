@@ -9,7 +9,8 @@ export const TextAreaContainer = styled.div`
 `;
 export const TextField = styled.textarea`
   border-radius: 15px;
-  width: 230px;
+  width: 70%;
+
   background-color: #e6e6e6;
   max-height: calc(3rem + 10px);
   font-size: 1rem;
@@ -29,8 +30,8 @@ export const TextField = styled.textarea`
 `;
 export const SendButton = styled.div`
   transition: transform 0.3s ease-in-out;
-  width: 35px;
-  height: 35px;
+  width: 48px;
+  height: 48px;
   border-radius: 100%;
   background-color: #248c73;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -45,6 +46,6 @@ export const SendButton = styled.div`
     align-items: center;
     width: 100%;
     height: 100%; */
-    padding: 10px 12px;
+    padding: 15px 19px;
   }
 `;

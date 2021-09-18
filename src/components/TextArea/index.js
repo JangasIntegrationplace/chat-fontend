@@ -6,7 +6,7 @@ export default function Index({ postMessage }) {
   function handlePostMessage() {
     // FIXME: use better validation
     if (message.length) {
-      // postMessage(message);
+      postMessage(message);
       setMessage("");
     } else {
       console.log("failed to post message");

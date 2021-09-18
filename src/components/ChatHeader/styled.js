@@ -9,7 +9,7 @@ export const Header = styled.div`
   align-items: center;
   .header-text {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: semi-bold;
     color: #392538;
   }
 `;

@@ -10,11 +10,14 @@ export const ChatContainer = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 48px 1fr max-content;
   padding: 15px;
+  background: white;
+  @media screen and (max-width: 400px) {
+    width: 280px;
+  }
 `;
 
 export const MessagesContainer = styled.div`
-  padding: 8px;
-  padding-top: 25px;
+  padding: 25px 4px 25px 0px;
   display: flex;
   flex-direction: column;
   grid-gap: 20px;
@@ -23,7 +26,7 @@ export const MessagesContainer = styled.div`
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 2px;
   }
   ::-webkit-scrollbar-track {
     background: none;
@@ -38,9 +41,6 @@ export const MessagesWrapper = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
-  /* display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr; */
   :after {
     content: "";
     width: 100%;
