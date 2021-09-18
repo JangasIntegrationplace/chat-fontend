@@ -41,6 +41,10 @@ export const MessagesWrapper = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
+  .start-text {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.95rem;
+  }
   :after {
     content: "";
     width: 100%;

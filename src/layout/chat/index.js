@@ -31,12 +31,13 @@ export default function Chat({ closeChatBox, conversation, postMessage }) {
       <ChatHeader closeChatBox={closeChatBox} />
       {!isFirstTime ? (
         <MessagesWrapper>
+          <p className="start-text">This is the start of your converstion.</p>
           <MessagesContainer ref={(el) => (messageContainer = el)}>
             {_.orderBy(conversation, ["timestamp"], ["asc"]).map((message) => (
               <MessageBox
                 key={message.id}
                 isCustomerCare={!message.send_by_user}
-                contents={message.body}
+                contents={message}
               />
             ))}
           </MessagesContainer>

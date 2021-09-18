@@ -1,30 +1,32 @@
 import styled, { css } from "styled-components";
 export const Message = styled.div`
-  padding: 15px;
   min-height: max-content;
-  /* width: max-content; */
   max-width: 250px;
   height: max-content;
-  border-radius: 25px 25px 0px 25px;
-  background-color: #248c73;
-  border: none;
-  outline: none;
-  resize: none;
   font-size: 1rem;
-
-  text-align: left;
-  color: white;
+  text-align: right;
   align-self: end;
-  &::-webkit-resizer {
-    display: none;
+  color: white;
+  .message-content {
+    border-radius: 25px 25px 0px 25px;
+    background-color: #248c73;
+    padding: 15px;
+  }
+  .meta-data {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.8rem;
+    margin-top: 5px;
   }
   ${({ customerCare }) =>
     customerCare &&
     css`
-      border-radius: 25px 25px 25px 0px;
-      background-color: #e6e6e6;
-      color: white;
-      color: #1c1c1c;
       align-self: start;
+      text-align: left;
+      .message-content {
+        border-radius: 25px 25px 25px 0px;
+        background-color: #e6e6e6;
+        color: white;
+        color: #1c1c1c;
+      }
     `}
 `;
