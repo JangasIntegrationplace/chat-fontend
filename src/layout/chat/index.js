@@ -13,42 +13,51 @@ export default function Chat({
   conversation,
   postMessage,
   showAlert,
+  isLive,
+  createThread,
+  isFirstTime,
 }) {
-  const [isFirstTime, setIsFirstTime] = useState(false);
   let messageContainer = useRef(null);
   const [username, setUsername] = useSession(NAME);
   function handleSubmitUserDetails(name) {
     setUsername(NAME, name);
-    const message = "name: " + name;
-    postMessage(message);
-    setIsFirstTime(false);
+    // setIsFirstTime(false);
   }
   useEffect(() => {
     if (messageContainer && !isFirstTime) {
       messageContainer.scrollTop = messageContainer.scrollHeight;
     }
-    if (!username) {
-      setIsFirstTime(true);
-    }
+    // if (!username) {
+    // setIsFirstTime(true);
+    // }
   }, []);
+  useEffect(() => {
+    if (messageContainer && !isFirstTime) {
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+  }, [conversation]);
   return (
     <ChatContainer>
       <ChatHeader closeChatBox={closeChatBox} />
       {!isFirstTime ? (
         <MessagesWrapper>
-          <p className="start-text">This is the start of your converstion.</p>
           <MessagesContainer ref={(el) => (messageContainer = el)}>
-            {_.orderBy(conversation, ["timestamp"], ["asc"]).map((message) => (
-              <MessageBox
-                key={message.id}
-                isCustomerCare={!message.send_by_user}
-                contents={message}
-              />
-            ))}
+            <p className="start-text">This is the start of your converstion.</p>
+            {conversation.length && isLive
+              ? _.orderBy(conversation, ["timestamp"], ["asc"]).map(
+                  (message, i) => (
+                    <MessageBox
+                      key={i}
+                      isCustomerCare={!message.send_by_user}
+                      contents={message}
+                    />
+                  )
+                )
+              : null}
           </MessagesContainer>
         </MessagesWrapper>
       ) : (
-        <UserDetailsModal submitUserDetails={handleSubmitUserDetails} />
+        <UserDetailsModal createThread={createThread} />
       )}
       {!isFirstTime ? (
         <TextArea postMessage={postMessage} showAlert={showAlert} />

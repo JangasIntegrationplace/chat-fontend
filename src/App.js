@@ -1,40 +1,68 @@
 import { useEffect, useState, useRef } from "react";
 import ChatButton from "./components/ChatButton";
 import Chat from "./layout/chat";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import * as api from "./api";
+import Socket from "./api/socket";
 import useSession from "./hooks/useSession";
 import { Alert } from "./components/AlertModal/styled";
+import { create } from "lodash";
 
 const THREAD_TOKEN = "THREAD_TOKEN";
+const NAME = "NAME";
 function App() {
   let alertRef = useRef();
+  const [isFirstTime, setIsFirstTime] = useState(false);
+  const [socket, setSocket] = useState();
+  const [isLive, setIsLive] = useState(false);
   const [thread, setThread] = useSession(THREAD_TOKEN);
+  const [name, setName] = useSession(NAME);
   const [conversation, setConversation] = useState([]);
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
   const [alert, setAlert] = useState({
     isError: true,
     message: "error",
   });
+  function initSocket(thread) {
+    const socketInstance = new Socket(
+      process.env.REACT_APP_SOCKET_ENDPOINT + "/" + thread + "/"
+    );
+    setSocket(socketInstance);
+    socketInstance.onOpen(() => showAlert("you have been put through"));
+    socketInstance.onError((e) => {
+      showAlert("can't connect to slack at the moment", true);
+    });
+    socketInstance.onMessage((e) => {
+      const newMessage = JSON.parse(e.data);
+      if (newMessage.id) {
+        retrieveThread(thread);
+      }
+    });
+  }
   async function initializeChat() {
     setIsChatBoxOpen(true);
     if (thread) {
+      initSocket(thread);
       retrieveThread(thread);
-    } else {
-      createThread();
+      setIsLive(true);
     }
   }
-  async function createThread() {
-    const { success, data: response } = await api.createThread();
+  async function createThread(userData) {
+    const { success, data: response } = await api.createThread(userData);
     if (!success) {
       console.log(response);
       showAlert(response.message, true);
     } else {
       setThread(THREAD_TOKEN, response.id);
+      initSocket(response.id);
+      retrieveThread(response.id);
+      setIsLive(true);
     }
   }
-  async function retrieveThread() {
-    const { success, data: response } = await api.retrieveChatThread(thread);
+  async function retrieveThread(threadId) {
+    const { success, data: response } = await api.retrieveChatThread(
+      thread || threadId
+    );
     if (success) {
       setConversation(response.messages);
     } else {
@@ -46,26 +74,15 @@ function App() {
     const { success, data: response } = await api.postMessage({
       threadId: thread,
       message,
+      userData: JSON.parse(name),
     });
-    if (success) {
-      setConversation([
-        ...conversation,
-        {
-          id: response.id,
-          user: response.user,
-          timestamp: response.timestamp,
-          body: response.body,
-          send_by_user: response.send_by_user,
-          thread: response.thread,
-        },
-      ]);
-    } else {
+    if (!success) {
       console.log(response);
       showAlert(response.message, true);
     }
   }
   function showAlert(message, isError = false) {
-    if (alertRef) {
+    if (alertRef.current) {
       setAlert({
         message,
         isError,
@@ -80,12 +97,16 @@ function App() {
       }, 3000);
     }
   }
+  function handleCreateThread(userData) {
+    setName(NAME, JSON.stringify(userData));
+    createThread(userData);
+    setIsFirstTime(false);
+  }
   useEffect(() => {
-    return () => {
-      console.log("unmounted");
-    };
+    if (!name) {
+      setIsFirstTime(true);
+    }
   }, []);
-
   return (
     <AppContainer className="App">
       {isChatBoxOpen ? (
@@ -98,6 +119,9 @@ function App() {
             conversation={conversation}
             postMessage={postMessage}
             showAlert={showAlert}
+            isLive={isLive}
+            createThread={handleCreateThread}
+            isFirstTime={isFirstTime}
           />
         </div>
       ) : (

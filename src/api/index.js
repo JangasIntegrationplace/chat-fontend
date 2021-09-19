@@ -1,7 +1,8 @@
 import axios from "axios";
-const API = process.env.REACT_APP_URL;
-const USER_DATA = { name: "micheal" };
-export async function createThread(userData = USER_DATA) {
+//CONSTANTS
+const API = process.env.REACT_APP_API_ENDPOINT;
+
+export async function createThread(userData) {
   try {
     const response = await axios({
       method: "post",
@@ -21,10 +22,11 @@ export async function createThread(userData = USER_DATA) {
   }
 }
 export async function retrieveChatThread(threadId) {
+  console.log(threadId);
   try {
     const response = await axios({
       method: "get",
-      url: API + "/chat/thread/" + threadId,
+      url: API + "/chat/thread/" + threadId + "/",
     });
     return { success: true, data: response.data };
   } catch (e) {
@@ -35,7 +37,7 @@ export async function retrieveChatThread(threadId) {
     };
   }
 }
-export async function postMessage({ threadId, message, userData = USER_DATA }) {
+export async function postMessage({ threadId, message, userData }) {
   try {
     const response = await axios({
       method: "post",
