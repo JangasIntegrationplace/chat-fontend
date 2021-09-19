@@ -8,8 +8,8 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   .header-text {
-    font-size: 20px;
-    font-weight: semi-bold;
+    font-size: 22px;
+    font-weight: 500;
     color: #392538;
   }
 `;

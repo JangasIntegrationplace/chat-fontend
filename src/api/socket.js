@@ -22,4 +22,7 @@ export default class Socket {
       cb(e);
     };
   }
+  close() {
+    this.socket.close();
+  }
 }

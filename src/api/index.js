@@ -1,5 +1,4 @@
 import axios from "axios";
-//CONSTANTS
 const API = process.env.REACT_APP_API_ENDPOINT;
 
 export async function createThread(userData) {
@@ -22,7 +21,6 @@ export async function createThread(userData) {
   }
 }
 export async function retrieveChatThread(threadId) {
-  console.log(threadId);
   try {
     const response = await axios({
       method: "get",

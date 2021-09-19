@@ -1,16 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import ChatButton from "./components/ChatButton";
 import Chat from "./layout/chat";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import * as api from "./api";
 import Socket from "./api/socket";
 import useSession from "./hooks/useSession";
 import { Alert } from "./components/AlertModal/styled";
-import { create } from "lodash";
 
 const THREAD_TOKEN = "THREAD_TOKEN";
 const NAME = "NAME";
-function App() {
+function App({ title, align, icon }) {
   let alertRef = useRef();
   const [isFirstTime, setIsFirstTime] = useState(false);
   const [socket, setSocket] = useState();
@@ -50,7 +49,6 @@ function App() {
   async function createThread(userData) {
     const { success, data: response } = await api.createThread(userData);
     if (!success) {
-      console.log(response);
       showAlert(response.message, true);
     } else {
       setThread(THREAD_TOKEN, response.id);
@@ -66,7 +64,6 @@ function App() {
     if (success) {
       setConversation(response.messages);
     } else {
-      console.log("Error: " + response);
       showAlert(response.message, true);
     }
   }
@@ -77,7 +74,6 @@ function App() {
       userData: JSON.parse(name),
     });
     if (!success) {
-      console.log(response);
       showAlert(response.message, true);
     }
   }
@@ -87,9 +83,9 @@ function App() {
         message,
         isError,
       });
-      alertRef.current.classList.add("show");
+      alertRef.current && alertRef.current.classList.add("show");
       setTimeout(() => {
-        alertRef.current.classList.remove("show");
+        alertRef.current && alertRef.current.classList.remove("show");
         setAlert({
           message: "",
           isError: false,
@@ -106,27 +102,31 @@ function App() {
     if (!name) {
       setIsFirstTime(true);
     }
-  }, []);
+  }, [name]);
   return (
-    <AppContainer className="App">
+    <AppContainer className="App" alignLeft={align === "left" ? true : false}>
       {isChatBoxOpen ? (
-        <div className="position-br">
+        <div className={"position-br"}>
           <Alert error={alert.isError} ref={alertRef}>
             {alert.message}
           </Alert>
           <Chat
-            closeChatBox={() => setIsChatBoxOpen(false)}
+            closeChatBox={() => {
+              setIsChatBoxOpen(false);
+              socket.close();
+            }}
             conversation={conversation}
             postMessage={postMessage}
             showAlert={showAlert}
             isLive={isLive}
             createThread={handleCreateThread}
             isFirstTime={isFirstTime}
+            title={title}
           />
         </div>
       ) : (
-        <div onClick={initializeChat} className="position-br">
-          <ChatButton />
+        <div onClick={initializeChat} className={"position-br"}>
+          <ChatButton icon={icon} />
         </div>
       )}
     </AppContainer>
@@ -140,10 +140,29 @@ const AppContainer = styled.div`
   bottom: 50px;
   right: 50px;
   z-index: 1000;
+  .position-br {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
   @media screen and (max-width: 400px) {
     bottom: 10px;
     right: 10px;
   }
+  ${({ alignLeft }) =>
+    alignLeft &&
+    css`
+      left: 50px;
+      .position-br {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      @media screen and (max-width: 400px) {
+        bottom: 10px;
+        left: 10px;
+      }
+    `}
 `;
 
 export default App;
