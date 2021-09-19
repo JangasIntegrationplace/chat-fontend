@@ -15,7 +15,10 @@ export async function createThread(userData = USER_DATA) {
     return { success: true, data: response.data };
   } catch (e) {
     console.log(e);
-    return { success: false, data: e };
+    return {
+      success: false,
+      data: { message: "could not create chat an error occured" },
+    };
   }
 }
 export async function retrieveChatThread(threadId) {
@@ -27,11 +30,15 @@ export async function retrieveChatThread(threadId) {
     return { success: true, data: response.data };
   } catch (e) {
     console.log(e);
-    return { success: false, data: e };
+    return {
+      success: false,
+      data: { message: "could not retrieve chats an error occured" },
+    };
   }
 }
 export async function postMessage({ threadId, message, userData = USER_DATA }) {
   try {
+    throw new Error("error");
     const response = await axios({
       method: "post",
       url: API + "/chat/message/",
@@ -46,6 +53,9 @@ export async function postMessage({ threadId, message, userData = USER_DATA }) {
     return { success: true, data: response.data };
   } catch (e) {
     console.log(e);
-    return { success: false, data: e };
+    return {
+      success: false,
+      data: { message: "could not send message an error occured" },
+    };
   }
 }

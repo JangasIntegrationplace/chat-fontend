@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TextField, SendButton, TextAreaContainer } from "./styled";
 import SendIcon from "./send.svg";
-export default function Index({ postMessage }) {
+export default function Index({ postMessage, showAlert }) {
   const [message, setMessage] = useState("");
   function handlePostMessage() {
     // FIXME: use better validation
@@ -9,7 +9,7 @@ export default function Index({ postMessage }) {
       postMessage(message);
       setMessage("");
     } else {
-      console.log("failed to post message");
+      showAlert("please write message ", true);
     }
   }
   return (
@@ -19,6 +19,7 @@ export default function Index({ postMessage }) {
         onChange={(e) => setMessage(e.target.value)}
         value={message}
       ></TextField>
+
       <SendButton icon={SendIcon} onClick={handlePostMessage} />
     </TextAreaContainer>
   );

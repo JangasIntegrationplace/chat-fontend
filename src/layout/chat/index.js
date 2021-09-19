@@ -8,7 +8,12 @@ import UserDetailsModal from "../../components/UserDetailsModal";
 import useSession from "../../hooks/useSession";
 
 const NAME = "NAME";
-export default function Chat({ closeChatBox, conversation, postMessage }) {
+export default function Chat({
+  closeChatBox,
+  conversation,
+  postMessage,
+  showAlert,
+}) {
   const [isFirstTime, setIsFirstTime] = useState(false);
   let messageContainer = useRef(null);
   const [username, setUsername] = useSession(NAME);
@@ -45,7 +50,9 @@ export default function Chat({ closeChatBox, conversation, postMessage }) {
       ) : (
         <UserDetailsModal submitUserDetails={handleSubmitUserDetails} />
       )}
-      {!isFirstTime ? <TextArea postMessage={postMessage} /> : null}
+      {!isFirstTime ? (
+        <TextArea postMessage={postMessage} showAlert={showAlert} />
+      ) : null}
     </ChatContainer>
   );
 }
