@@ -11,7 +11,6 @@ export async function createThread(userData = USER_DATA) {
         user: userData,
       },
     });
-    // const response = { data: { id: "" } };
     return { success: true, data: response.data };
   } catch (e) {
     console.log(e);
@@ -38,7 +37,6 @@ export async function retrieveChatThread(threadId) {
 }
 export async function postMessage({ threadId, message, userData = USER_DATA }) {
   try {
-    throw new Error("error");
     const response = await axios({
       method: "post",
       url: API + "/chat/message/",

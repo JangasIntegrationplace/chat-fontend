@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import "./App.css";
 import ChatButton from "./components/ChatButton";
 import Chat from "./layout/chat";
 import styled, { css } from "styled-components";
 import * as api from "./api";
 import useSession from "./hooks/useSession";
+import { Alert } from "./components/AlertModal/styled";
 
 const THREAD_TOKEN = "THREAD_TOKEN";
 function App() {
@@ -111,6 +111,7 @@ function App() {
 const AppContainer = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
   font-family: "Montserrat", sans-serif;
+  text-align: center;
   position: fixed;
   bottom: 50px;
   right: 50px;
@@ -120,34 +121,5 @@ const AppContainer = styled.div`
     right: 10px;
   }
 `;
-const Alert = styled.div`
-  transition: all 0.3s ease;
-  position: absolute;
-  top: 58px;
-  left: 0;
-  opacity: 0;
-  width: 100%;
-  height: 20px;
-  padding: 8px 0px;
-  z-index: 10;
-  background-color: #72c5cd;
-  border-bottom: 1px solid #88ebf5;
-  border-top: 1px solid #88ebf5;
-  color: white;
-  transform: translatey(-10px);
-  font-size: 0.9rem;
-  ${({ error }) =>
-    error &&
-    css`
-       {
-        background-color: #ea4e54;
-        border-bottom: 1px solid #ff7b80;
-        border-top: 1px solid #ff7b80;
-      }
-    `}
-  &.show {
-    opacity: 1;
-    transform: translatey(0px);
-  }
-`;
+
 export default App;

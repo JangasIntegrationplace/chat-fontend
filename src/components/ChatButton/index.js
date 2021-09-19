@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "./slack-logo.svg";
+import Logo from "./logo.svg";
 import { Button } from "./styled";
 
 export default function index() {
